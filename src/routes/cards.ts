@@ -1,17 +1,23 @@
 import { Router } from "express";
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+import { deleteCard, getCards, postCard } from "../controllers/cards";
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
 const cardsRouter = Router();
 
 cardsRouter.get("/", (req, res) => {
-  res.send("GET /cards");
+  getCards(req, res);
 });
 
 cardsRouter.post("/", (req, res) => {
-  res.send("POST /cards");
+  postCard(req, res);
 });
 
 cardsRouter.delete("/:cardId", (req, res) => {
-  res.send(`DELETE /cards/${req.params.cardId}`);
+  deleteCard(req, res);
 });
 
 export default cardsRouter;

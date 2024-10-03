@@ -1,15 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-type ICard = {
+export type ICard = {
   name: string;
   link: string;
-  owner: string;
-  likes: string[];
+  owner: Types.ObjectId;
+  likes: Types.ObjectId[];
+  createdAt: Date;
 };
 
-const cardSchema = new mongoose.Schema({
+const cardSchema = new mongoose.Schema<ICard>({
   name: {
     type: String,
     required: true,
@@ -33,4 +34,6 @@ const cardSchema = new mongoose.Schema({
   createdAt: Date,
 });
 
-export default mongoose.model<ICard>("card", cardSchema);
+const Card = mongoose.model<ICard>("card", cardSchema);
+
+export default Card;

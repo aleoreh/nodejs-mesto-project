@@ -2,7 +2,7 @@ import { Router } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { getUser, postUser, getUsers } from "../controllers/users";
+import { getUser, postUser, getUsers, patchUser } from "../controllers/users";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -18,6 +18,10 @@ usersRouter.get("/:userId", (req, res) => {
 
 usersRouter.post("/", (req, res) => {
   postUser(req, res);
+});
+
+usersRouter.patch("/me", (req, res) => {
+  patchUser(req, res);
 });
 
 export default usersRouter;

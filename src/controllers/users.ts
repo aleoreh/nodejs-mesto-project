@@ -2,20 +2,22 @@ import { Request, Response } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { createUser, getUser, getUsers } from "../services/users";
+import userModel from "../models/user";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-export function usersGet(req: Request, res: Response) {
-  getUsers()
+export function getUsers(req: Request, res: Response) {
+  userModel
+    .find({})
     .then((users) => {
       res.send({ data: users });
     })
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }
 
-export function userGet(req: Request, res: Response) {
-  getUser(req.params.userId)
+export function getUser(req: Request, res: Response) {
+  userModel
+    .find({ _id: req.params.userId })
     .then((user) => {
       res.send({ data: user });
     })
@@ -24,8 +26,9 @@ export function userGet(req: Request, res: Response) {
     });
 }
 
-export function userPost(req: Request, res: Response) {
-  createUser(req.body)
+export function postUser(req: Request, res: Response) {
+  userModel
+    .create(req.body)
     .then((user) => {
       res.send({ data: user });
     })

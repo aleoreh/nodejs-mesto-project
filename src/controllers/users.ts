@@ -43,3 +43,13 @@ export function patchUser(req: Request, res: Response) {
       res.status(500).send({ message: "Произошла ошибка" });
     });
 }
+
+export function patchUserAvatar(req: Request, res: Response) {
+  User.findByIdAndUpdate((req as any).user._id, { avatar: req.body.avatar })
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch(() => {
+      res.status(500).send({ message: "Произошла ошибка" });
+    });
+}

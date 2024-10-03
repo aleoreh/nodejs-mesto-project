@@ -1,9 +1,10 @@
 // app.ts — входной файл
-import express from "express";
+import express, { NextFunction, Response } from "express";
 import mongoose from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+import cardsRouter from "./routes/cards";
 import usersRouter from "./routes/users";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -16,7 +17,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/users", usersRouter);
+app.use("/cards", cardsRouter);
+
+app.use((req: any, res: Response, next: NextFunction) => {
+  req.user = {
+    _id: "66fed2e62bbb9b3333727836",
+  };
+
+  next();
+});
 
 app.listen(3000, () => {
-  console.log("Listens on port 3000")
+  console.log("Listens on port 3000");
 });

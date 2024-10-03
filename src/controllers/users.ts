@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import userModel from "../models/user";
+import User from "../models/user";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 export function getUsers(req: Request, res: Response) {
-  userModel
+  User
     .find({})
     .then((users) => {
       res.send({ data: users });
@@ -16,7 +16,7 @@ export function getUsers(req: Request, res: Response) {
 }
 
 export function getUser(req: Request, res: Response) {
-  userModel
+  User
     .find({ _id: req.params.userId })
     .then((user) => {
       res.send({ data: user });
@@ -27,7 +27,7 @@ export function getUser(req: Request, res: Response) {
 }
 
 export function postUser(req: Request, res: Response) {
-  userModel
+  User
     .create(req.body)
     .then((user) => {
       res.send({ data: user });
@@ -35,4 +35,8 @@ export function postUser(req: Request, res: Response) {
     .catch(() => {
       res.status(500).send({ message: "Произошла ошибка" });
     });
+}
+
+export function patchUser(req: Request, res: Response) {
+
 }

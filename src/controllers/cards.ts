@@ -15,21 +15,28 @@ export function getCards(req: Request, res: Response) {
 }
 
 export function postCard(req: Request, res: Response) {
-  Card.create(req.body)
+  const cardData = {
+    ...req.body,
+    owner: (req as any).user._id,
+    createdAt: new Date(),
+  };
+
+  Card.create(cardData)
     .then((card) => {
-      res.send({ data: { ...card, owner: (req as any).user } });
+      res.send({ data: card });
     })
-    .catch(() =>
+    .catch((err) => {
+      console.log(err);
       res.status(500).send({
         message: "Произошла ошибка",
-      })
-    );
+      });
+    });
 }
 
 export function deleteCard(req: Request, res: Response) {
   Card.deleteOne({ _id: req.params.cardId })
     .then(() => {
-      res.status(200);
+      res.send();
     })
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }

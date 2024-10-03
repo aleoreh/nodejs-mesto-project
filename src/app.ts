@@ -17,4 +17,6 @@ app.use(express.json());
 
 app.use("/users", usersRouter);
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Listens on port 3000")
+});

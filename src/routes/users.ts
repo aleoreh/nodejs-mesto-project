@@ -2,43 +2,22 @@ import { Router } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import userModel from "../models/user";
+import { userGet, userPost, usersGet } from "../controllers/users";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const usersRouter = Router();
 
 usersRouter.get("/", (req, res) => {
-  userModel
-    .find({})
-    .then((users) => {
-      res.send({ data: users });
-    })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+  usersGet(req, res);
 });
 
 usersRouter.get("/:userId", (req, res) => {
-  userModel
-    .find({ _id: req.params.userId })
-    .then((user) => {
-      res.send({ data: user });
-    })
-    .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
-    });
+  userGet(req, res);
 });
 
 usersRouter.post("/", (req, res) => {
-  const { name, about, avatar } = req.body;
-
-  userModel
-    .create({ name, about, avatar })
-    .then((user) => {
-      res.send({ data: user });
-    })
-    .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
-    });
+  userPost(req, res);
 });
 
 export default usersRouter;

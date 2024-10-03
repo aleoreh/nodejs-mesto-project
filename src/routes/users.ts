@@ -2,18 +2,18 @@ import { Router } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-const users = Router();
+const usersRouter = Router();
 
-users.get("/", (req, res) => {
-  res.send("/users");
+usersRouter.get("/", (req, res) => {
+
 });
 
-users.get("/:userId", (req, res) => {
+usersRouter.get("/:userId", (req, res) => {
   res.send(req.params.userId);
 });
 
-users.post("/", (req, res) => {
+usersRouter.post("/", (req, res) => {
   res.send(req.body);
 });
 
-export default users;
+export default usersRouter;

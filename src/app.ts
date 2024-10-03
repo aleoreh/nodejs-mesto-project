@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import users from "./routes/users";
+import usersRouter from "./routes/users";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -15,6 +15,6 @@ mongoose.connect("mongodb://localhost:27017/mestodb");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use("/users", users);
+app.use("/users", usersRouter);
 
 app.listen(3000);

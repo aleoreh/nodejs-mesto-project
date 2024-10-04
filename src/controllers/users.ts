@@ -1,55 +1,60 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+import { NotFoundError } from "../errors";
 import User from "../models/user";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-export function getUsers(req: Request, res: Response) {
+export function getUsers(req: Request, res: Response, next: NextFunction) {
   User.find({})
     .then((users) => {
       res.send({ data: users });
     })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch(next);
 }
 
-export function getUser(req: Request, res: Response) {
-  User.find({ _id: req.params.userId })
+export function getUser(req: Request, res: Response, next: NextFunction) {
+  const userId = req.params.userId;
+  User.findById(userId)
     .then((user) => {
+      if (!user) throw new NotFoundError(`Пользователь не найден`);
       res.send({ data: user });
     })
-    .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
-    });
+    .catch(next);
 }
 
-export function postUser(req: Request, res: Response) {
+export function postUser(req: Request, res: Response, next: NextFunction) {
   User.create(req.body)
     .then((user) => {
       res.send({ data: user });
     })
-    .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
-    });
+    .catch(next);
 }
 
-export function patchUser(req: Request, res: Response) {
-  User.findByIdAndUpdate((req as any).user._id, req.body)
+export function patchUser(req: Request, res: Response, next: NextFunction) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const userId = (req as any).user._id;
+  User.findByIdAndUpdate(userId, req.body)
     .then((user) => {
+      if (!user) throw new NotFoundError(`Пользователь не найден`);
       res.send({ data: user });
     })
-    .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
-    });
+    .catch(next);
 }
 
-export function patchUserAvatar(req: Request, res: Response) {
-  User.findByIdAndUpdate((req as any).user._id, { avatar: req.body.avatar })
+export function patchUserAvatar(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const userId = (req as any).user._id;
+  User.findByIdAndUpdate(userId, { avatar: req.body.avatar })
     .then((user) => {
+      if (!user) throw new NotFoundError(`Пользователь не найден`);
       res.send({ data: user });
     })
-    .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
-    });
+    .catch(next);
 }

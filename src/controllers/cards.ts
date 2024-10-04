@@ -1,20 +1,21 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 import Card from "../models/card";
+import { NotFoundError } from "../errors";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-export function getCards(req: Request, res: Response) {
+export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
     .then((cards) => {
       res.send({ data: cards });
     })
-    .catch(() => res.status(500).send("Произошла ошибка"));
+    .catch(next);
 }
 
-export function postCard(req: Request, res: Response) {
+export function postCard(req: Request, res: Response, next: NextFunction) {
   const cardData = {
     ...req.body,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,23 +27,19 @@ export function postCard(req: Request, res: Response) {
     .then((card) => {
       res.send({ data: card });
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({
-        message: "Произошла ошибка",
-      });
-    });
+    .catch(next);
 }
 
-export function deleteCard(req: Request, res: Response) {
-  Card.deleteOne({ _id: req.params.cardId })
+export function deleteCard(req: Request, res: Response, next: NextFunction) {
+  const cardId = req.params.cardId;
+  Card.deleteOne({ _id: cardId })
     .then(() => {
       res.send();
     })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch(next);
 }
 
-export function putLike(req: Request, res: Response) {
+export function putLike(req: Request, res: Response, next: NextFunction) {
   Card.findByIdAndUpdate(
     req.params.cardId,
     {
@@ -52,12 +49,13 @@ export function putLike(req: Request, res: Response) {
     { new: true }
   )
     .then((card) => {
+      if (!card) throw new NotFoundError("Карточка не найдена");
       res.send({ data: card });
     })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch(next);
 }
 
-export function deleteLike(req: Request, res: Response) {
+export function deleteLike(req: Request, res: Response, next: NextFunction) {
   Card.findByIdAndUpdate(
     req.params.cardId,
     {
@@ -67,7 +65,8 @@ export function deleteLike(req: Request, res: Response) {
     { new: true }
   )
     .then((card) => {
+      if (!card) throw new NotFoundError("Карточка не найдена");
       res.send({ data: card });
     })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch(next);
 }

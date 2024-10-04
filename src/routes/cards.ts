@@ -14,24 +14,14 @@ import {
 
 const cardsRouter = Router();
 
-cardsRouter.get("/", (req, res) => {
-  getCards(req, res);
-});
+cardsRouter.get("/", getCards);
 
-cardsRouter.post("/", (req, res) => {
-  postCard(req, res);
-});
+cardsRouter.post("/", postCard);
 
-cardsRouter.delete("/:cardId", (req, res) => {
-  deleteCard(req, res);
-});
+cardsRouter.delete("/:cardId", deleteCard);
 
-cardsRouter.put("/:cardId/likes", (req, res) => {
-  putLike(req, res);
-});
+cardsRouter.put("/:cardId/likes", putLike);
 
-cardsRouter.delete("/:cardId/likes", (req, res) => {
-  deleteLike(req, res);
-});
+cardsRouter.delete("/:cardId/likes", deleteLike);
 
 export default cardsRouter;

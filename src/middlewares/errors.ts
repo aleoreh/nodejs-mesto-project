@@ -1,6 +1,23 @@
 import { ErrorRequestHandler } from "express";
+import { Error } from "mongoose";
 
-export const errorRequestHandler: ErrorRequestHandler = (
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+import { BadRequestError, NotFoundError } from "../errors";
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+export const appErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (err instanceof Error.CastError || err instanceof Error.ValidationError) {
+    next(new BadRequestError("Переданы некорректные данные"));
+  } else if (err instanceof Error.DocumentNotFoundError) {
+    next(new NotFoundError("Объект не найден"));
+  } else {
+    next(err);
+  }
+};
+
+export const finalErrorHandler: ErrorRequestHandler = (
   err,
   req,
   res,

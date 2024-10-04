@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+import { appErrorHandler, finalErrorHandler } from "./middlewares/errors";
+import { errorLogger } from "./middlewares/logger";
 import cardsRouter from "./routes/cards";
 import usersRouter from "./routes/users";
-import { errorRequestHandler } from "./middlewares/errors";
-import { errorLogger } from "./middlewares/logger";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -31,9 +31,10 @@ app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 
 app.use(errorLogger);
-app.use(errorRequestHandler);
+app.use(appErrorHandler)
+app.use(finalErrorHandler);
 
 app.listen(3000, () => {
-  console.log("Listens on port 3000");
+  console.log("Listening on port 3000");
   console.log(process.env.FAKE_USER_ID);
 });

@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import cardsRouter from "./routes/cards";
 import usersRouter from "./routes/users";
+import { errorRequestHandler } from "./middlewares/errors";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -28,7 +29,9 @@ app.use((req: any, res: Response, next: NextFunction) => {
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 
+app.use(errorRequestHandler);
+
 app.listen(3000, () => {
   console.log("Listens on port 3000");
-  console.log(process.env.FAKE_USER_ID)
+  console.log(process.env.FAKE_USER_ID);
 });

@@ -2,7 +2,13 @@ import { Router } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { deleteCard, getCards, postCard, putLike } from "../controllers/cards";
+import {
+  deleteCard,
+  deleteLike,
+  getCards,
+  postCard,
+  putLike,
+} from "../controllers/cards";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -24,6 +30,8 @@ cardsRouter.put("/:cardId/likes", (req, res) => {
   putLike(req, res);
 });
 
-cardsRouter.delete("/:cardId/likes", (req, res) => {});
+cardsRouter.delete("/:cardId/likes", (req, res) => {
+  deleteLike(req, res);
+});
 
 export default cardsRouter;

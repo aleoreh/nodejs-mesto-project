@@ -56,3 +56,18 @@ export function putLike(req: Request, res: Response) {
     })
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }
+
+export function deleteLike(req: Request, res: Response) {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      $pull: { likes: (req as any).user._id },
+    },
+    { new: true }
+  )
+    .then((card) => {
+      res.send({ data: card });
+    })
+    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+}

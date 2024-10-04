@@ -10,7 +10,7 @@ import { NotFoundError } from "../errors";
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
     .then((cards) => {
-      res.send({ data: cards });
+      res.send(cards);
     })
     .catch(next);
 }
@@ -25,7 +25,7 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
 
   Card.create(cardData)
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch(next);
 }
@@ -50,7 +50,7 @@ export function putLike(req: Request, res: Response, next: NextFunction) {
   )
     .then((card) => {
       if (!card) throw new NotFoundError("Карточка не найдена");
-      res.send({ data: card });
+      res.send(card);
     })
     .catch(next);
 }
@@ -66,7 +66,7 @@ export function deleteLike(req: Request, res: Response, next: NextFunction) {
   )
     .then((card) => {
       if (!card) throw new NotFoundError("Карточка не найдена");
-      res.send({ data: card });
+      res.send(card);
     })
     .catch(next);
 }

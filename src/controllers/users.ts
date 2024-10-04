@@ -10,7 +10,7 @@ import User from "../models/user";
 export function getUsers(req: Request, res: Response, next: NextFunction) {
   User.find({})
     .then((users) => {
-      res.send({ data: users });
+      res.send(users);
     })
     .catch(next);
 }
@@ -20,7 +20,7 @@ export function getUser(req: Request, res: Response, next: NextFunction) {
   User.findById(userId)
     .then((user) => {
       if (!user) throw new NotFoundError(`Пользователь не найден`);
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 }
@@ -28,7 +28,7 @@ export function getUser(req: Request, res: Response, next: NextFunction) {
 export function postUser(req: Request, res: Response, next: NextFunction) {
   User.create(req.body)
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 }
@@ -39,7 +39,7 @@ export function patchUser(req: Request, res: Response, next: NextFunction) {
   User.findByIdAndUpdate(userId, req.body)
     .then((user) => {
       if (!user) throw new NotFoundError(`Пользователь не найден`);
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 }
@@ -54,7 +54,7 @@ export function patchUserAvatar(
   User.findByIdAndUpdate(userId, { avatar: req.body.avatar })
     .then((user) => {
       if (!user) throw new NotFoundError(`Пользователь не найден`);
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 }

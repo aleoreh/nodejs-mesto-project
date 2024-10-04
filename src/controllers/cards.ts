@@ -17,6 +17,7 @@ export function getCards(req: Request, res: Response) {
 export function postCard(req: Request, res: Response) {
   const cardData = {
     ...req.body,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     owner: (req as any).user._id,
     createdAt: new Date(),
   };
@@ -37,6 +38,21 @@ export function deleteCard(req: Request, res: Response) {
   Card.deleteOne({ _id: req.params.cardId })
     .then(() => {
       res.send();
+    })
+    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+}
+
+export function putLike(req: Request, res: Response) {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      $addToSet: { likes: (req as any).user._id },
+    },
+    { new: true }
+  )
+    .then((card) => {
+      res.send({ data: card });
     })
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }

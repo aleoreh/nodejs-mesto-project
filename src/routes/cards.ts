@@ -2,7 +2,7 @@ import { Router } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { deleteCard, getCards, postCard } from "../controllers/cards";
+import { deleteCard, getCards, postCard, putLike } from "../controllers/cards";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -19,5 +19,11 @@ cardsRouter.post("/", (req, res) => {
 cardsRouter.delete("/:cardId", (req, res) => {
   deleteCard(req, res);
 });
+
+cardsRouter.put("/:cardId/likes", (req, res) => {
+  putLike(req, res);
+});
+
+cardsRouter.delete("/:cardId/likes", (req, res) => {});
 
 export default cardsRouter;

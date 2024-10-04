@@ -16,9 +16,10 @@ mongoose.connect("mongodb://localhost:27017/mestodb");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 app.use((req: any, res: Response, next: NextFunction) => {
   req.user = {
-    _id: "66fed2e62bbb9b3333727836",
+    _id: process.env.FAKE_USER_ID,
   };
 
   next();
@@ -29,4 +30,5 @@ app.use("/cards", cardsRouter);
 
 app.listen(3000, () => {
   console.log("Listens on port 3000");
+  console.log(process.env.FAKE_USER_ID)
 });

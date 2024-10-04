@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import cardsRouter from "./routes/cards";
 import usersRouter from "./routes/users";
 import { errorRequestHandler } from "./middlewares/errors";
+import { errorLogger } from "./middlewares/logger";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -29,6 +30,7 @@ app.use((req: any, res: Response, next: NextFunction) => {
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 
+app.use(errorLogger);
 app.use(errorRequestHandler);
 
 app.listen(3000, () => {

@@ -32,10 +32,18 @@ export const appErrorHandler: ErrorRequestHandler = (err, _req, _res, next) => {
   return next(err);
 };
 
-export const finalErrorHandler: ErrorRequestHandler = (err, _req, res) => {
+export const finalErrorHandler: ErrorRequestHandler = (
+  err,
+  _req,
+  res,
+  next
+) => {
   const { statusCode = 500, message } = err;
 
-  res.status(statusCode).send({
+  return res.status(statusCode).send({
     message: statusCode === 500 ? "На сервере произошла ошибка" : message,
   });
+
+  // fix no-unused-var
+  next()
 };

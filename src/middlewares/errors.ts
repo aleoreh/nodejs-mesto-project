@@ -8,6 +8,9 @@ import { BadRequestError } from "../errors";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+const DEFAULT_ERROR_MESSAGE = "На сервере произошла ошибка";
+const INCORRECT_DATA_ERROR_MESSAGE = "Переданы некорректные данные";
+
 export const appErrorHandler: ErrorRequestHandler = (err, _req, _res, next) => {
   if (
     typeof err.message === "string" &&
@@ -23,7 +26,7 @@ export const appErrorHandler: ErrorRequestHandler = (err, _req, _res, next) => {
     err instanceof MongooseError.CastError ||
     err instanceof MongooseError.ValidationError
   ) {
-    return next(new BadRequestError("Переданы некорректные данные"));
+    return next(new BadRequestError(INCORRECT_DATA_ERROR_MESSAGE));
   }
 
   return next(err);
@@ -40,7 +43,7 @@ export const finalErrorHandler: ErrorRequestHandler = (
   return res.status(statusCode).send({
     message:
       statusCode === StatusCodes.INTERNAL_SERVER_ERROR
-        ? "На сервере произошла ошибка"
+        ? DEFAULT_ERROR_MESSAGE
         : message,
   });
 

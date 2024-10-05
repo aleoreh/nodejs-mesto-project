@@ -7,7 +7,7 @@ import { BadRequestError, NotFoundError } from "../errors";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-export const appErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+export const appErrorHandler: ErrorRequestHandler = (err, _req, _res, next) => {
   if (
     typeof err.message === "string" &&
     err.message.startsWith("E11000") &&
@@ -32,7 +32,7 @@ export const appErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   return next(err);
 };
 
-export const finalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+export const finalErrorHandler: ErrorRequestHandler = (err, _req, res) => {
   const { statusCode = 500, message } = err;
 
   res.status(statusCode).send({

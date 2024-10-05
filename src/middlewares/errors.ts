@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from "express";
-import { Error } from "mongoose";
+import { Error as MongooseError } from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -8,22 +8,31 @@ import { BadRequestError, NotFoundError } from "../errors";
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 export const appErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  if (err instanceof Error.CastError || err instanceof Error.ValidationError) {
-    next(new BadRequestError("Переданы некорректные данные"));
-  } else if (err instanceof Error.DocumentNotFoundError) {
-    next(new NotFoundError("Объект не найден"));
-  } else {
-    next(err);
+  if (
+    typeof err.message === "string" &&
+    err.message.startsWith("E11000") &&
+    err.keyValue
+  ) {
+    return next(
+      new BadRequestError(`Поле ${JSON.stringify(err.keyValue)} не уникально`)
+    );
   }
+
+  if (err instanceof MongooseError.DocumentNotFoundError) {
+    return next(new NotFoundError("Документ не найден"));
+  }
+
+  if (
+    err instanceof MongooseError.CastError ||
+    err instanceof MongooseError.ValidationError
+  ) {
+    return next(new BadRequestError("Переданы некорректные данные"));
+  }
+
+  return next(err);
 };
 
-export const finalErrorHandler: ErrorRequestHandler = (
-  err,
-  req,
-  res,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  next
-) => {
+export const finalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
 
   res.status(statusCode).send({

@@ -11,6 +11,8 @@ import usersRouter from "./routes/users";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+const { FAKE_USER_ID = "123456" } = process.env;
+
 const app = express();
 
 mongoose.connect("mongodb://localhost:27017/mestodb");
@@ -30,11 +32,11 @@ app.use((req: any, res: Response, next: NextFunction) => {
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);
 
-app.use(appErrorHandler)
+app.use(appErrorHandler);
 app.use(errorLogger);
 app.use(finalErrorHandler);
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");
-  console.log(`User: ${process.env.FAKE_USER_ID}`);
+  console.log(`User: ${FAKE_USER_ID}`);
 });

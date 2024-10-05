@@ -18,8 +18,7 @@ export function getCards(req: Request, res: Response, next: NextFunction) {
 export function postCard(req: Request, res: Response, next: NextFunction) {
   const cardData = {
     ...req.body,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    owner: (req as any).user._id,
+    owner: res.locals.user._id,
     createdAt: new Date(),
   };
 
@@ -43,8 +42,7 @@ export function putLike(req: Request, res: Response, next: NextFunction) {
   Card.findByIdAndUpdate(
     req.params.cardId,
     {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      $addToSet: { likes: (req as any).user._id },
+      $addToSet: { likes: res.locals.user._id },
     },
     { new: true }
   )
@@ -59,8 +57,7 @@ export function deleteLike(req: Request, res: Response, next: NextFunction) {
   Card.findByIdAndUpdate(
     req.params.cardId,
     {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      $pull: { likes: (req as any).user._id },
+      $pull: { likes: res.locals.user._id },
     },
     { new: true }
   )

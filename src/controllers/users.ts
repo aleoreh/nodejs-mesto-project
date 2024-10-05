@@ -34,8 +34,7 @@ export function postUser(req: Request, res: Response, next: NextFunction) {
 }
 
 export function patchUser(req: Request, res: Response, next: NextFunction) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const userId = (req as any).user._id;
+  const userId = res.locals.user._id;
   User.findByIdAndUpdate(userId, req.body, { new: true })
     .then((user) => {
       if (!user) throw new NotFoundError(`Пользователь не найден`);
@@ -49,8 +48,7 @@ export function patchUserAvatar(
   res: Response,
   next: NextFunction
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const userId = (req as any).user._id;
+  const userId = res.locals.user._id;
   User.findByIdAndUpdate(userId, { avatar: req.body.avatar }, { new: true })
     .then((user) => {
       if (!user) throw new NotFoundError(`Пользователь не найден`);

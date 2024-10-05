@@ -1,5 +1,5 @@
 // app.ts — входной файл
-import express, { NextFunction, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -20,10 +20,9 @@ mongoose.connect("mongodb://localhost:27017/mestodb");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-app.use((req: any, res: Response, next: NextFunction) => {
-  req.user = {
-    _id: process.env.FAKE_USER_ID,
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.locals.user = {
+    _id: FAKE_USER_ID,
   };
 
   next();

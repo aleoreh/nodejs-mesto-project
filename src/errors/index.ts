@@ -1,9 +1,13 @@
+import { StatusCodes } from "http-status-codes";
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
 export class BadRequestError extends Error {
   statusCode: number;
 
   constructor(message: string) {
     super(message);
-    this.statusCode = 400;
+    this.statusCode = StatusCodes.BAD_REQUEST;
   }
 }
 
@@ -12,6 +16,6 @@ export class NotFoundError extends Error {
 
   constructor(message: string) {
     super(message);
-    this.statusCode = 404;
+    this.statusCode = StatusCodes.NOT_FOUND;
   }
 }

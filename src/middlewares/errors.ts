@@ -1,4 +1,5 @@
 import { ErrorRequestHandler } from "express";
+import { StatusCodes } from "http-status-codes";
 import { Error as MongooseError } from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -38,12 +39,15 @@ export const finalErrorHandler: ErrorRequestHandler = (
   res,
   next
 ) => {
-  const { statusCode = 500, message } = err;
+  const { statusCode = StatusCodes.INTERNAL_SERVER_ERROR, message } = err;
 
   return res.status(statusCode).send({
-    message: statusCode === 500 ? "На сервере произошла ошибка" : message,
+    message:
+      statusCode === StatusCodes.INTERNAL_SERVER_ERROR
+        ? "На сервере произошла ошибка"
+        : message,
   });
 
   // fix no-unused-var
-  next()
+  next();
 };

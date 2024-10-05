@@ -8,23 +8,29 @@ type IUser = {
   avatar: string;
 };
 
-const userSchema = new mongoose.Schema<IUser>({
-  name: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 30,
+const userSchema = new mongoose.Schema<IUser>(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 2,
+      maxlength: 30,
+    },
+    about: {
+      type: String,
+      minLength: 2,
+      maxLength: 200,
+    },
+    avatar: {
+      type: String,
+      required: true,
+    },
   },
-  about: {
-    type: String,
-    minLength: 2,
-    maxLength: 200,
-  },
-  avatar: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const User = mongoose.model<IUser>("user", userSchema);
 

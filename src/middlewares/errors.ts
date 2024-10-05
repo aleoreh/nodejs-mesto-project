@@ -4,7 +4,7 @@ import { Error as MongooseError } from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { BadRequestError, NotFoundError } from "../errors";
+import { BadRequestError } from "../errors";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -17,10 +17,6 @@ export const appErrorHandler: ErrorRequestHandler = (err, _req, _res, next) => {
     return next(
       new BadRequestError(`Поле ${JSON.stringify(err.keyValue)} не уникально`)
     );
-  }
-
-  if (err instanceof MongooseError.DocumentNotFoundError) {
-    return next(new NotFoundError("Документ не найден"));
   }
 
   if (

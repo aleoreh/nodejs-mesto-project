@@ -13,7 +13,7 @@ import usersRouter from "./routes/users";
 
 const {
   DATABASE_PATH = "mongodb://127.0.0.1:27017/mestodb",
-  FAKE_USER_ID = "123456",
+  FAKE_USER_ID = "6700b51ab22ca627e5be4361",
 } = process.env;
 
 function run() {

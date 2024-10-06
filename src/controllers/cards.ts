@@ -16,8 +16,11 @@ export function getCards(req: Request, res: Response, next: NextFunction) {
 }
 
 export function postCard(req: Request, res: Response, next: NextFunction) {
+  const { name, link } = req.body;
+
   const cardData = {
-    ...req.body,
+    name,
+    link,
     owner: res.locals.user._id,
     createdAt: new Date(),
   };

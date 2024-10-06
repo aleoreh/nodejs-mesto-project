@@ -29,7 +29,6 @@ export function getUser(req: Request, res: Response, next: NextFunction) {
 
 export function postUser(req: Request, res: Response, next: NextFunction) {
   const { name, about } = req.body;
-
   User.create({ name, about })
     .then((user) => {
       res.send(user);
@@ -39,7 +38,12 @@ export function postUser(req: Request, res: Response, next: NextFunction) {
 
 export function patchUser(req: Request, res: Response, next: NextFunction) {
   const userId = res.locals.user._id;
-  User.findByIdAndUpdate(userId, req.body, { new: true })
+  const { name, about } = req.body;
+  User.findByIdAndUpdate(
+    userId,
+    { name, about },
+    { new: true, runValidators: true }
+  )
     .then((user) => {
       if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);
       res.send(user);
@@ -53,7 +57,11 @@ export function patchUserAvatar(
   next: NextFunction
 ) {
   const userId = res.locals.user._id;
-  User.findByIdAndUpdate(userId, { avatar: req.body.avatar }, { new: true })
+  User.findByIdAndUpdate(
+    userId,
+    { avatar: req.body.avatar },
+    { new: true, runValidators: true }
+  )
     .then((user) => {
       if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);
       res.send(user);

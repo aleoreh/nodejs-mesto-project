@@ -51,7 +51,7 @@ export function putLike(req: Request, res: Response, next: NextFunction) {
     {
       $addToSet: { likes: res.locals.user._id },
     },
-    { new: true }
+    { new: true, runValidators: true }
   )
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
@@ -66,7 +66,7 @@ export function deleteLike(req: Request, res: Response, next: NextFunction) {
     {
       $pull: { likes: res.locals.user._id },
     },
-    { new: true }
+    { new: true, runValidators: true }
   )
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);

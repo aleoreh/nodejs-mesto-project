@@ -28,7 +28,9 @@ export function getUser(req: Request, res: Response, next: NextFunction) {
 }
 
 export function postUser(req: Request, res: Response, next: NextFunction) {
-  User.create(req.body)
+  const { name, about } = req.body;
+
+  User.create({ name, about })
     .then((user) => {
       res.send(user);
     })

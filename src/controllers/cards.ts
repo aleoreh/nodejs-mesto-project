@@ -7,6 +7,8 @@ import { NotFoundError } from "../errors";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+const CARD_NOT_FOUNT_MESSAGE = "Карточка не найдена"
+
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
     .then((cards) => {
@@ -34,8 +36,9 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
 
 export function deleteCard(req: Request, res: Response, next: NextFunction) {
   const cardId = req.params.cardId;
-  Card.deleteOne({ _id: cardId })
-    .then(() => {
+  Card.findOneAndDelete({ _id: cardId })
+    .then((card) => {
+      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE)
       res.send();
     })
     .catch(next);
@@ -50,7 +53,7 @@ export function putLike(req: Request, res: Response, next: NextFunction) {
     { new: true }
   )
     .then((card) => {
-      if (!card) throw new NotFoundError("Карточка не найдена");
+      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
       res.send(card);
     })
     .catch(next);
@@ -65,7 +68,7 @@ export function deleteLike(req: Request, res: Response, next: NextFunction) {
     { new: true }
   )
     .then((card) => {
-      if (!card) throw new NotFoundError("Карточка не найдена");
+      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
       res.send(card);
     })
     .catch(next);

@@ -1,11 +1,13 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { notFound } from "../controllers/not-found";
+import notFound from '../controllers/not-found';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-export const notFoundRouter = Router();
+const notFoundRouter = Router();
 
 notFoundRouter.use(notFound);
+
+export default notFoundRouter;

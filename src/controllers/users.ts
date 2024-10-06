@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { NotFoundError } from "../errors/not-found-error";
-import User from "../models/user";
+import NotFoundError from '../errors/not-found-error';
+import User from '../models/user';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-const USER_NOT_FOUND_MESSAGE = "Пользователь не найден";
+const USER_NOT_FOUND_MESSAGE = 'Пользователь не найден';
 
 export function getUsers(req: Request, res: Response, next: NextFunction) {
   User.find({})
@@ -18,7 +18,7 @@ export function getUsers(req: Request, res: Response, next: NextFunction) {
 }
 
 export function getUser(req: Request, res: Response, next: NextFunction) {
-  const userId = req.params.userId;
+  const { userId } = req.params;
   User.findById(userId)
     .then((user) => {
       if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);
@@ -42,7 +42,7 @@ export function patchUser(req: Request, res: Response, next: NextFunction) {
   User.findByIdAndUpdate(
     userId,
     { name, about },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);
@@ -54,13 +54,13 @@ export function patchUser(req: Request, res: Response, next: NextFunction) {
 export function patchUserAvatar(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const userId = res.locals.user._id;
   User.findByIdAndUpdate(
     userId,
     { avatar: req.body.avatar },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);

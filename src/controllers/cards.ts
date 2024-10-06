@@ -1,14 +1,14 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import Card from "../models/card";
-import { NotFoundError } from "../errors/not-found-error";
+import Card from '../models/card';
+import NotFoundError from '../errors/not-found-error';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-const CARD_NOT_FOUNT_MESSAGE = "Карточка не найдена"
-const CARD_DELETED = "Карточка удалена";
+const CARD_NOT_FOUNT_MESSAGE = 'Карточка не найдена';
+const CARD_DELETED = 'Карточка удалена';
 
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
@@ -36,10 +36,10 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
 }
 
 export function deleteCard(req: Request, res: Response, next: NextFunction) {
-  const cardId = req.params.cardId;
+  const { cardId } = req.params;
   Card.findOneAndDelete({ _id: cardId })
     .then((card) => {
-      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE)
+      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
       res.send(CARD_DELETED);
     })
     .catch(next);
@@ -51,7 +51,7 @@ export function putLike(req: Request, res: Response, next: NextFunction) {
     {
       $addToSet: { likes: res.locals.user._id },
     },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
@@ -66,7 +66,7 @@ export function deleteLike(req: Request, res: Response, next: NextFunction) {
     {
       $pull: { likes: res.locals.user._id },
     },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);

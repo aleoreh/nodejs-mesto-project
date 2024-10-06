@@ -1,8 +1,8 @@
-import { StatusCodes } from "http-status-codes";
+import { StatusCodes } from 'http-status-codes';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-export class BadRequestError extends Error {
+class BadRequestError extends Error {
   statusCode: number;
 
   constructor(message: string) {
@@ -10,3 +10,5 @@ export class BadRequestError extends Error {
     this.statusCode = StatusCodes.BAD_REQUEST;
   }
 }
+
+export default BadRequestError;

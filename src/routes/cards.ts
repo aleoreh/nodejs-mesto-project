@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -8,20 +8,20 @@ import {
   getCards,
   postCard,
   putLike,
-} from "../controllers/cards";
+} from '../controllers/cards';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const cardsRouter = Router();
 
-cardsRouter.get("/", getCards);
+cardsRouter.get('/', getCards);
 
-cardsRouter.post("/", postCard);
+cardsRouter.post('/', postCard);
 
-cardsRouter.delete("/:cardId", deleteCard);
+cardsRouter.delete('/:cardId', deleteCard);
 
-cardsRouter.put("/:cardId/likes", putLike);
+cardsRouter.put('/:cardId/likes', putLike);
 
-cardsRouter.delete("/:cardId/likes", deleteLike);
+cardsRouter.delete('/:cardId/likes', deleteLike);
 
 export default cardsRouter;

@@ -1,20 +1,20 @@
 // app.ts — входной файл
-import express, { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
+import express, { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { appErrorHandler, finalErrorHandler } from "./middlewares/errors";
-import { errorLogger } from "./middlewares/logger";
-import cardsRouter from "./routes/cards";
-import { notFoundRouter } from "./routes/not-found";
-import usersRouter from "./routes/users";
+import { appErrorHandler, finalErrorHandler } from './middlewares/errors';
+import errorLogger from './middlewares/logger';
+import cardsRouter from './routes/cards';
+import notFoundRouter from './routes/not-found';
+import usersRouter from './routes/users';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const {
-  DATABASE_PATH = "mongodb://127.0.0.1:27017/mestodb",
-  FAKE_USER_ID = "6700b51ab22ca627e5be4361",
+  DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
+  FAKE_USER_ID = '6700b51ab22ca627e5be4361',
 } = process.env;
 
 function run() {
@@ -31,16 +31,16 @@ function run() {
     next();
   });
 
-  app.use("/users", usersRouter);
-  app.use("/cards", cardsRouter);
-  app.get("*", notFoundRouter);
+  app.use('/users', usersRouter);
+  app.use('/cards', cardsRouter);
+  app.get('*', notFoundRouter);
 
   app.use(appErrorHandler);
   app.use(errorLogger);
   app.use(finalErrorHandler);
 
   app.listen(3000, () => {
-    console.log("Listening on port 3000");
+    console.log('Listening on port 3000');
     console.log(`User: ${FAKE_USER_ID}`);
   });
 }

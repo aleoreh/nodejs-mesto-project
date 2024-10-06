@@ -8,6 +8,7 @@ import { NotFoundError } from "../errors";
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const CARD_NOT_FOUNT_MESSAGE = "Карточка не найдена"
+const CARD_DELETED = "Карточка удалена";
 
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
@@ -39,7 +40,7 @@ export function deleteCard(req: Request, res: Response, next: NextFunction) {
   Card.findOneAndDelete({ _id: cardId })
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE)
-      res.send();
+      res.send(CARD_DELETED);
     })
     .catch(next);
 }

@@ -13,16 +13,6 @@ const INCORRECT_DATA_ERROR_MESSAGE = "Переданы некорректные 
 
 export const appErrorHandler: ErrorRequestHandler = (err, _req, _res, next) => {
   if (
-    typeof err.message === "string" &&
-    err.message.startsWith("E11000") &&
-    err.keyValue
-  ) {
-    return next(
-      new BadRequestError(`Поле ${JSON.stringify(err.keyValue)} не уникально`)
-    );
-  }
-
-  if (
     err instanceof MongooseError.CastError ||
     err instanceof MongooseError.ValidationError
   ) {

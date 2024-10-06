@@ -7,7 +7,7 @@ import NotFoundError from '../errors/not-found-error';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-const CARD_NOT_FOUNT_MESSAGE = 'Карточка не найдена';
+const CARD_NOT_FOUND_MESSAGE = 'Карточка не найдена';
 const CARD_DELETED = 'Карточка удалена';
 
 export function getCards(req: Request, res: Response, next: NextFunction) {
@@ -20,7 +20,6 @@ export function getCards(req: Request, res: Response, next: NextFunction) {
 
 export function postCard(req: Request, res: Response, next: NextFunction) {
   const { name, link } = req.body;
-
   const cardData = {
     name,
     link,
@@ -39,7 +38,7 @@ export function deleteCard(req: Request, res: Response, next: NextFunction) {
   const { cardId } = req.params;
   Card.findOneAndDelete({ _id: cardId })
     .then((card) => {
-      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
+      if (!card) throw new NotFoundError(CARD_NOT_FOUND_MESSAGE);
       res.send(CARD_DELETED);
     })
     .catch(next);
@@ -54,7 +53,7 @@ export function putLike(req: Request, res: Response, next: NextFunction) {
     { new: true, runValidators: true },
   )
     .then((card) => {
-      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
+      if (!card) throw new NotFoundError(CARD_NOT_FOUND_MESSAGE);
       res.send(card);
     })
     .catch(next);
@@ -69,7 +68,7 @@ export function deleteLike(req: Request, res: Response, next: NextFunction) {
     { new: true, runValidators: true },
   )
     .then((card) => {
-      if (!card) throw new NotFoundError(CARD_NOT_FOUNT_MESSAGE);
+      if (!card) throw new NotFoundError(CARD_NOT_FOUND_MESSAGE);
       res.send(card);
     })
     .catch(next);

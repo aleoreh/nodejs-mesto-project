@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import { appErrorHandler, finalErrorHandler } from "./middlewares/errors";
 import { errorLogger } from "./middlewares/logger";
 import cardsRouter from "./routes/cards";
+import { notFoundRouter } from "./routes/not-found";
 import usersRouter from "./routes/users";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -32,6 +33,7 @@ function run() {
 
   app.use("/users", usersRouter);
   app.use("/cards", cardsRouter);
+  app.get("*", notFoundRouter);
 
   app.use(appErrorHandler);
   app.use(errorLogger);

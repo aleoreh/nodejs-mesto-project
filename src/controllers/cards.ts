@@ -22,7 +22,7 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
     name,
     link,
     owner: res.locals.user._id,
-    createdAt: new Date(),
+    // timestamps устанавливаются с помощью опции timestamps: true
   };
 
   Card.create(cardData)

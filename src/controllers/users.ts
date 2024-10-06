@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { NotFoundError } from "../errors";
+import { NotFoundError } from "../errors/not-found-error";
 import User from "../models/user";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //

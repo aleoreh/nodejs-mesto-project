@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 import Card from "../models/card";
-import { NotFoundError } from "../errors";
+import { NotFoundError } from "../errors/not-found-error";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 

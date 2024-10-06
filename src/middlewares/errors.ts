@@ -4,7 +4,7 @@ import { Error as MongooseError } from "mongoose";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import { BadRequestError } from "../errors";
+import { BadRequestError } from "../errors/bad-request-error";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 

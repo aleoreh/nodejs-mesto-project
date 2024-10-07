@@ -39,7 +39,7 @@ export function deleteCard(req: Request, res: Response, next: NextFunction) {
   Card.findOneAndDelete({ _id: cardId })
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUND_MESSAGE);
-      res.send(CARD_DELETED);
+      res.send({ message: CARD_DELETED });
     })
     .catch(next);
 }

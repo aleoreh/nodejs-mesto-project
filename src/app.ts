@@ -33,7 +33,7 @@ function run() {
 
   app.use('/users', usersRouter);
   app.use('/cards', cardsRouter);
-  app.get('*', notFoundRouter);
+  app.use('*', notFoundRouter);
 
   app.use(appErrorHandler);
   app.use(errorLogger);

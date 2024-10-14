@@ -12,7 +12,8 @@ import usersRouter from './routes/users';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-import 'dotenv/config'
+import 'dotenv/config';
+import { createUser, login } from './controllers/users';
 
 const {
   DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
@@ -34,6 +35,8 @@ function run() {
     next();
   });
 
+  app.use('/signin', login);
+  app.use('/signup', createUser);
   app.use('/users', usersRouter);
   app.use('/cards', cardsRouter);
   app.use('*', notFoundRouter);

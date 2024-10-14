@@ -34,7 +34,7 @@ export function getUser(req: Request, res: Response, next: NextFunction) {
     .catch(next);
 }
 
-export function postUser(req: Request, res: Response, next: NextFunction) {
+export function createUser(req: Request, res: Response, next: NextFunction) {
   const {
     name = undefined,
     about = undefined,

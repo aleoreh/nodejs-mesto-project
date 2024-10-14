@@ -19,7 +19,7 @@ import authMiddleware from './middlewares/auth';
 const {
   DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
   FAKE_USER_ID = '6700b51ab22ca627e5be4361',
-  SECRET_KEY,
+  JWT_SECRET,
 } = process.env;
 
 function run() {
@@ -55,8 +55,8 @@ function run() {
   });
 }
 
-if (!SECRET_KEY) {
-  console.log('Необходимо задать переменную SECRET_KEY');
+if (!JWT_SECRET) {
+  console.log('Необходимо задать переменную JWT_SECRET');
 } else {
   mongoose
     .connect(DATABASE_PATH)

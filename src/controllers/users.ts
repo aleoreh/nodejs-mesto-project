@@ -14,8 +14,6 @@ const INCORRECT_LOGIN_MESSAGE = 'Неправильная почта или па
 const CORRECT_LOGIN_MESSAGE = 'ok';
 const WEEK_IN_MILLISECONDS = 1 * 1000 * 3600 * 24 * 7;
 
-const { SECRET_KEY } = process.env;
-
 export function getUsers(req: Request, res: Response, next: NextFunction) {
   User.find({})
     .then((users) => {
@@ -93,9 +91,6 @@ export function patchUserAvatar(
 }
 
 export function login(req: Request, res: Response, next: NextFunction) {
-  // TODO: проверка на наличие этой переменной проходит при старте приложения; придумать способ передавать её в контроллер
-  if (!SECRET_KEY) throw new Error('no secret');
-
   const { email, password } = req.body;
   User.findOne({ email })
     .then((user) => {
@@ -111,7 +106,7 @@ export function login(req: Request, res: Response, next: NextFunction) {
       if (!matched) {
         throw new NotFoundError(INCORRECT_LOGIN_MESSAGE);
       }
-      const token = jwt.sign({ _id: user._id }, SECRET_KEY);
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       res.cookie('token', token, {
         httpOnly: true,
         secure: true,

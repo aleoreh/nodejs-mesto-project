@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import validator from 'validator';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -6,6 +7,8 @@ type IUser = {
   name: string;
   about: string;
   avatar: string;
+  email: string;
+  password: string;
 };
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -23,6 +26,18 @@ const userSchema = new mongoose.Schema<IUser>(
       maxLength: 200,
     },
     avatar: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      validate: {
+        validator: validator.isEmail,
+        message: 'Некорректный email',
+      },
+    },
+    password: {
       type: String,
       required: true,
     },

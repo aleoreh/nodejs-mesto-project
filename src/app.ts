@@ -12,9 +12,12 @@ import usersRouter from './routes/users';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
+import 'dotenv/config'
+
 const {
   DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
   FAKE_USER_ID = '6700b51ab22ca627e5be4361',
+  SECRET_KEY,
 } = process.env;
 
 function run() {
@@ -45,9 +48,13 @@ function run() {
   });
 }
 
-mongoose
-  .connect(DATABASE_PATH)
-  .then(run)
-  .catch(() => {
-    console.log(`Не удалось подключиться к базе данных ${DATABASE_PATH}`);
-  });
+if (!SECRET_KEY) {
+  console.log('Необходимо задать переменную SECRET_KEY');
+} else {
+  mongoose
+    .connect(DATABASE_PATH)
+    .then(run)
+    .catch(() => {
+      console.log(`Не удалось подключиться к базе данных ${DATABASE_PATH}`);
+    });
+}

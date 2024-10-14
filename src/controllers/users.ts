@@ -112,7 +112,7 @@ export function login(req: Request, res: Response, next: NextFunction) {
         throw new NotFoundError(INCORRECT_LOGIN_MESSAGE);
       }
       const token = jwt.sign({ _id: user._id }, SECRET_KEY);
-      res.cookie('jwt', token, {
+      res.cookie('token', token, {
         httpOnly: true,
         secure: true,
         maxAge: WEEK_IN_MILLISECONDS,

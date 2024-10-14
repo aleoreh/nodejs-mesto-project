@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -28,8 +29,15 @@ export function getUser(req: Request, res: Response, next: NextFunction) {
 }
 
 export function postUser(req: Request, res: Response, next: NextFunction) {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const {
+    name = undefined,
+    about = undefined,
+    avatar = undefined,
+    email,
+    password,
+  } = req.body;
+  const hashedPassword = bcrypt.hash(password, 10);
+  User.create({ name, about, avatar, email, password: hashedPassword })
     .then((user) => {
       res.send(user);
     })

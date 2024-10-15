@@ -1,4 +1,5 @@
 // app.ts — входной файл
+import { celebrate, Joi } from 'celebrate';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import express from 'express';
@@ -23,7 +24,16 @@ function run() {
   app.use(cookieParser());
   app.use(requestLogger);
 
-  app.use('/signin', login);
+  app.use(
+    '/signin',
+    celebrate({
+      body: Joi.object().keys({
+        email: Joi.string().required().email(),
+        password: Joi.string().required().min(3),
+      }),
+    }),
+    login,
+  );
   app.use('/signup', createUser);
 
   app.use(authMiddleware);
@@ -31,7 +41,6 @@ function run() {
   app.use('/users', usersRouter);
   app.use('/cards', cardsRouter);
   app.use('*', notFoundRouter);
-
 
   app.use(appErrorHandler);
   app.use(errorLogger);

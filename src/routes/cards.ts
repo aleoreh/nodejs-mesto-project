@@ -1,3 +1,4 @@
+import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 import {
   deleteCard,
@@ -11,7 +12,16 @@ const cardsRouter = Router();
 
 cardsRouter.get('/', getCards);
 
-cardsRouter.post('/', postCard);
+cardsRouter.post(
+  '/',
+  celebrate({
+    body: Joi.object({
+      name: Joi.string(),
+      link: Joi.string().uri(),
+    }),
+  }),
+  postCard,
+);
 
 cardsRouter.delete('/:cardId', deleteCard);
 

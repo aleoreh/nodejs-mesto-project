@@ -1,7 +1,4 @@
 import { Router } from 'express';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
 import {
   deleteCard,
   deleteLike,
@@ -9,8 +6,6 @@ import {
   postCard,
   putLike,
 } from '../controllers/cards';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const cardsRouter = Router();
 

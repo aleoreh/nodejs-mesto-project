@@ -1,7 +1,5 @@
 import mongoose, { Types } from 'mongoose';
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
 export type ICard = {
   name: string;
   link: string;

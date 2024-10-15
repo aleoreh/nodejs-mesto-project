@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
-import Card from '../models/card';
+import ForbiddenError from '../errors/forbidden-error';
 import NotFoundError from '../errors/not-found-error';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+import Card from '../models/card';
 
 const CARD_NOT_FOUND_MESSAGE = 'Карточка не найдена';
 const CARD_DELETED = 'Карточка удалена';
+const FORBIDDEN_ERROR_MESSAGE = 'Доступ запрещён';
 
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
@@ -23,7 +20,7 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
   const cardData = {
     name,
     link,
-    owner: res.locals.user._id,
+    owner: res.locals.userId,
     // timestamps устанавливаются с помощью опции timestamps: true
   };
 
@@ -39,6 +36,9 @@ export function deleteCard(req: Request, res: Response, next: NextFunction) {
   Card.findOneAndDelete({ _id: cardId })
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUND_MESSAGE);
+      if (res.locals.userId !== card.owner)
+        throw new ForbiddenError(FORBIDDEN_ERROR_MESSAGE);
+
       res.send({ message: CARD_DELETED });
     })
     .catch(next);

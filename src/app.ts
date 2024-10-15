@@ -7,14 +7,13 @@ import { createUser, login } from './controllers/users';
 import authMiddleware from './middlewares/auth';
 import errorLogger from './middlewares/error-logger';
 import { appErrorHandler, finalErrorHandler } from './middlewares/errors';
+import requestLogger from './middlewares/request-logger';
 import cardsRouter from './routes/cards';
 import notFoundRouter from './routes/not-found';
 import usersRouter from './routes/users';
 
-const {
-  DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
-  JWT_SECRET,
-} = process.env;
+const { DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb', JWT_SECRET } =
+  process.env;
 
 function run() {
   const app = express();
@@ -22,6 +21,7 @@ function run() {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
   app.use(cookieParser());
+  app.use(requestLogger);
 
   app.use('/signin', login);
   app.use('/signup', createUser);
@@ -31,6 +31,7 @@ function run() {
   app.use('/users', usersRouter);
   app.use('/cards', cardsRouter);
   app.use('*', notFoundRouter);
+
 
   app.use(appErrorHandler);
   app.use(errorLogger);

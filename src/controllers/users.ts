@@ -1,13 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
 import NotFoundError from '../errors/not-found-error';
 import User from '../models/user';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const USER_NOT_FOUND_MESSAGE = 'Пользователь не найден';
 const INCORRECT_LOGIN_MESSAGE = 'Неправильная почта или пароль';
@@ -106,13 +101,17 @@ export function login(req: Request, res: Response, next: NextFunction) {
       if (!matched) {
         throw new NotFoundError(INCORRECT_LOGIN_MESSAGE);
       }
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string);
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: WEEK_IN_MILLISECONDS,
-      });
-      res.send({ message: CORRECT_LOGIN_MESSAGE });
+      const token = jwt.sign(
+        { _id: user._id },
+        process.env.JWT_SECRET as string,
+      );
+      res
+        .cookie('token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          maxAge: WEEK_IN_MILLISECONDS,
+        })
+        .send({ message: CORRECT_LOGIN_MESSAGE });
     })
     .catch(next);
 }

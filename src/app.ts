@@ -1,20 +1,15 @@
 // app.ts — входной файл
+import cookieParser from 'cookie-parser';
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
+import { createUser, login } from './controllers/users';
+import authMiddleware from './middlewares/auth';
 import { appErrorHandler, finalErrorHandler } from './middlewares/errors';
 import errorLogger from './middlewares/logger';
 import cardsRouter from './routes/cards';
 import notFoundRouter from './routes/not-found';
 import usersRouter from './routes/users';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
-import 'dotenv/config';
-import { createUser, login } from './controllers/users';
-import authMiddleware from './middlewares/auth';
 
 const {
   DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
@@ -27,6 +22,7 @@ function run() {
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+  app.use(cookieParser());
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.user = {
@@ -51,7 +47,6 @@ function run() {
 
   app.listen(3000, () => {
     console.log('Listening on port 3000');
-    console.log(`User: ${FAKE_USER_ID}`);
   });
 }
 

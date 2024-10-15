@@ -1,7 +1,7 @@
 // app.ts — входной файл
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import { createUser, login } from './controllers/users';
 import authMiddleware from './middlewares/auth';
@@ -13,7 +13,6 @@ import usersRouter from './routes/users';
 
 const {
   DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
-  FAKE_USER_ID = '6700b51ab22ca627e5be4361',
   JWT_SECRET,
 } = process.env;
 
@@ -23,14 +22,6 @@ function run() {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
   app.use(cookieParser());
-
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    res.locals.user = {
-      _id: FAKE_USER_ID,
-    };
-
-    next();
-  });
 
   app.use('/signin', login);
   app.use('/signup', createUser);

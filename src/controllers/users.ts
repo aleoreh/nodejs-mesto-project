@@ -106,7 +106,7 @@ export function login(req: Request, res: Response, next: NextFunction) {
       if (!matched) {
         throw new NotFoundError(INCORRECT_LOGIN_MESSAGE);
       }
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string);
       res.cookie('token', token, {
         httpOnly: true,
         secure: true,

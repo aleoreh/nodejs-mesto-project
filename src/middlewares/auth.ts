@@ -13,7 +13,7 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
 
   const { token: auth } = req.cookies;
   const token = auth.replace('Bearer ', '');
-  const payload = jwt.verify(token, process.env.JWT_SECRET);
+  const payload = jwt.verify(token, process.env.JWT_SECRET as string);
   res.locals.user = payload;
   next();
 }

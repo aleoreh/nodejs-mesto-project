@@ -88,6 +88,7 @@ export function patchUserAvatar(
 export function login(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.body;
   User.findOne({ email })
+    .select('+password')
     .then((user) => {
       if (!user) {
         throw new NotFoundError(INCORRECT_LOGIN_MESSAGE);

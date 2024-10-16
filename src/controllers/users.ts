@@ -13,7 +13,7 @@ const WEEK_IN_MILLISECONDS = 1 * 1000 * 3600 * 24 * 7;
 
 const passwordJoiSchema = Joi.string().required().min(3);
 const emailJoiSchema = Joi.string().required().email();
-const uriJoiSchema = Joi.string().uri()
+const uriJoiSchema = Joi.string().uri();
 
 export const signinValidator = celebrate({
   body: Joi.object().keys({
@@ -61,6 +61,20 @@ export function getUsers(req: Request, res: Response, next: NextFunction) {
 
 export function getUser(req: Request, res: Response, next: NextFunction) {
   const { userId } = req.params;
+  User.findById(userId)
+    .then((user) => {
+      if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);
+      res.send(user);
+    })
+    .catch(next);
+}
+
+export function getAuthorizatedUser(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const userId = res.locals.user._id;
   User.findById(userId)
     .then((user) => {
       if (!user) throw new NotFoundError(USER_NOT_FOUND_MESSAGE);

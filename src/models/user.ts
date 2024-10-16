@@ -8,6 +8,11 @@ const DEFAULT_ABOUT = 'Исследователь';
 const DEFAULT_AVATAR =
   'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png';
 
+const urlValidator = (value: string) =>
+  /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/.test(
+    value,
+  );
+
 type IUser = {
   name: string;
   about: string;
@@ -37,9 +42,7 @@ const userSchema = new mongoose.Schema<IUser>(
       required: true,
       default: DEFAULT_AVATAR,
       validate: {
-        validator:
-          (value: string) => /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/
-            .test(value),
+        validator: urlValidator,
         message: 'Некорректный avatar',
       },
     },

@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       required: true,
       default: DEFAULT_AVATAR,
+      validate: {
+        validator:
+          /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/
+            .test,
+        message: 'Некорректный avatar',
+      },
     },
     email: {
       type: String,
@@ -44,12 +50,12 @@ const userSchema = new mongoose.Schema<IUser>(
         validator: validator.isEmail,
         message: 'Некорректный email',
       },
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
       required: true,
-      select: false
+      select: false,
     },
   },
   {

@@ -1,3 +1,4 @@
+import { celebrate, Joi } from 'celebrate';
 import { NextFunction, Request, Response } from 'express';
 import ForbiddenError from '../errors/forbidden-error';
 import NotFoundError from '../errors/not-found-error';
@@ -6,6 +7,19 @@ import Card from '../models/card';
 const CARD_NOT_FOUND_MESSAGE = 'Карточка не найдена';
 const CARD_DELETED = 'Карточка удалена';
 const FORBIDDEN_ERROR_MESSAGE = 'Доступ запрещён';
+
+export const cardIdParamsValidator = celebrate({
+  params: {
+    cardId: Joi.string(),
+  },
+});
+
+export const postCardValidator = celebrate({
+  body: Joi.object({
+    name: Joi.string(),
+    link: Joi.string().uri(),
+  }),
+});
 
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})
@@ -20,7 +34,7 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
   const cardData = {
     name,
     link,
-    owner: res.locals.userId,
+    owner: res.locals.user._id,
     // timestamps устанавливаются с помощью опции timestamps: true
   };
 
@@ -33,12 +47,13 @@ export function postCard(req: Request, res: Response, next: NextFunction) {
 
 export function deleteCard(req: Request, res: Response, next: NextFunction) {
   const { cardId } = req.params;
-  Card.findOneAndDelete({ _id: cardId })
+
+  Card.findById({ _id: cardId })
     .then((card) => {
       if (!card) throw new NotFoundError(CARD_NOT_FOUND_MESSAGE);
-      if (res.locals.userId !== card.owner)
+      if (!card.owner._id.equals(res.locals.user._id))
         throw new ForbiddenError(FORBIDDEN_ERROR_MESSAGE);
-
+      Card.deleteOne({ _id: card._id });
       res.send({ message: CARD_DELETED });
     })
     .catch(next);

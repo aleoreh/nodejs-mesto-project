@@ -1,10 +1,15 @@
 // app.ts — входной файл
-import { celebrate, Joi } from 'celebrate';
+import { errors as validationErrors } from 'celebrate';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
-import { createUser, login } from './controllers/users';
+import {
+  createUser,
+  createUserValidator,
+  login,
+  signinValidator,
+} from './controllers/users';
 import authMiddleware from './middlewares/auth';
 import errorLogger from './middlewares/error-logger';
 import { appErrorHandler, finalErrorHandler } from './middlewares/errors';
@@ -24,17 +29,8 @@ function run() {
   app.use(cookieParser());
   app.use(requestLogger);
 
-  app.use(
-    '/signin',
-    celebrate({
-      body: Joi.object().keys({
-        email: Joi.string().required().email(),
-        password: Joi.string().required().min(3),
-      }),
-    }),
-    login,
-  );
-  app.use('/signup', createUser);
+  app.use('/signin', signinValidator, login);
+  app.use('/signup', createUserValidator, createUser);
 
   app.use(authMiddleware);
 
@@ -42,6 +38,7 @@ function run() {
   app.use('/cards', cardsRouter);
   app.use('*', notFoundRouter);
 
+  app.use(validationErrors());
   app.use(appErrorHandler);
   app.use(errorLogger);
   app.use(finalErrorHandler);

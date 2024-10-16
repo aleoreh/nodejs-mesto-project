@@ -11,7 +11,7 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
-    res.locals.userId = payload;
+    res.locals.user = payload;
   } catch (err) {
     throw new UnauthorizedError(UNAUTHORIZED_MESSAGE);
   }

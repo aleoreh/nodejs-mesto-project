@@ -1,13 +1,8 @@
 import { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Error as MongooseError } from 'mongoose';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-
 import BadRequestError from '../errors/bad-request-error';
 import ConflictError from '../errors/conflict-error';
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 const DEFAULT_ERROR_MESSAGE = 'На сервере произошла ошибка';
 const INCORRECT_DATA_ERROR_MESSAGE = 'Переданы некорректные данные';

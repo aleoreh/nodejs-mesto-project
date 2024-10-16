@@ -1,13 +1,26 @@
+import { celebrate } from 'celebrate';
 import { Router } from 'express';
+import Joi from 'joi';
 import {
-  cardIdParamsValidator,
   deleteCard,
   deleteLike,
   getCards,
   postCard,
-  postCardValidator,
   putLike,
 } from '../controllers/cards';
+
+export const cardIdParamsValidator = celebrate({
+  params: {
+    cardId: Joi.string(),
+  },
+});
+
+export const postCardValidator = celebrate({
+  body: Joi.object({
+    name: Joi.string(),
+    link: Joi.string().uri(),
+  }),
+});
 
 const cardsRouter = Router();
 

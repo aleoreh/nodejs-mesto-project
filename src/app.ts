@@ -4,19 +4,17 @@ import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
-import {
-  createUser,
-  createUserValidator,
-  login,
-  signinValidator,
-} from './controllers/users';
+import { createUser, login } from './controllers/users';
 import authMiddleware from './middlewares/auth';
 import errorLogger from './middlewares/error-logger';
 import { appErrorHandler, finalErrorHandler } from './middlewares/errors';
 import requestLogger from './middlewares/request-logger';
 import cardsRouter from './routes/cards';
 import notFoundRouter from './routes/not-found';
-import usersRouter from './routes/users';
+import usersRouter, {
+  createUserValidator,
+  signinValidator,
+} from './routes/users';
 
 const { DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb', JWT_SECRET } =
   process.env;

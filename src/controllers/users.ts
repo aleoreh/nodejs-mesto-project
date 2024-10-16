@@ -1,7 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { celebrate } from 'celebrate';
 import { NextFunction, Request, Response } from 'express';
-import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import NotFoundError from '../errors/not-found-error';
 import User from '../models/user';
@@ -10,46 +8,6 @@ const USER_NOT_FOUND_MESSAGE = 'Пользователь не найден';
 const INCORRECT_LOGIN_MESSAGE = 'Неправильная почта или пароль';
 const CORRECT_LOGIN_MESSAGE = 'ok';
 const WEEK_IN_MILLISECONDS = 1 * 1000 * 3600 * 24 * 7;
-
-const passwordJoiSchema = Joi.string().required().min(3);
-const emailJoiSchema = Joi.string().required().email();
-const uriJoiSchema = Joi.string().uri();
-
-export const signinValidator = celebrate({
-  body: Joi.object().keys({
-    email: emailJoiSchema,
-    password: passwordJoiSchema,
-  }),
-});
-
-export const createUserValidator = celebrate({
-  body: {
-    name: Joi.string().optional(),
-    about: Joi.string().optional(),
-    avatar: uriJoiSchema.optional(),
-    email: emailJoiSchema,
-    password: passwordJoiSchema,
-  },
-});
-
-export const patchUserValidator = celebrate({
-  body: {
-    name: Joi.string(),
-    about: Joi.string(),
-  },
-});
-
-export const patchUserAvatarValidator = celebrate({
-  body: {
-    avatar: uriJoiSchema,
-  },
-});
-
-export const userIdValidator = celebrate({
-  params: {
-    userId: Joi.string(),
-  },
-});
 
 export function getUsers(req: Request, res: Response, next: NextFunction) {
   User.find({})

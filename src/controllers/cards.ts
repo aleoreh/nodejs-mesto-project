@@ -1,4 +1,3 @@
-import { celebrate, Joi } from 'celebrate';
 import { NextFunction, Request, Response } from 'express';
 import ForbiddenError from '../errors/forbidden-error';
 import NotFoundError from '../errors/not-found-error';
@@ -7,19 +6,6 @@ import Card from '../models/card';
 const CARD_NOT_FOUND_MESSAGE = 'Карточка не найдена';
 const CARD_DELETED = 'Карточка удалена';
 const FORBIDDEN_ERROR_MESSAGE = 'Доступ запрещён';
-
-export const cardIdParamsValidator = celebrate({
-  params: {
-    cardId: Joi.string(),
-  },
-});
-
-export const postCardValidator = celebrate({
-  body: Joi.object({
-    name: Joi.string(),
-    link: Joi.string().uri(),
-  }),
-});
 
 export function getCards(req: Request, res: Response, next: NextFunction) {
   Card.find({})

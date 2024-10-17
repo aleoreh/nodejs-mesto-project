@@ -11,10 +11,8 @@ import { appErrorHandler, finalErrorHandler } from './middlewares/errors';
 import requestLogger from './middlewares/request-logger';
 import cardsRouter from './routes/cards';
 import notFoundRouter from './routes/not-found';
-import usersRouter, {
-  createUserValidator,
-  signinValidator,
-} from './routes/users';
+import usersRouter from './routes/users';
+import { createUserValidator, signinValidator } from './routes/validation';
 
 const {
   PORT = 3000,

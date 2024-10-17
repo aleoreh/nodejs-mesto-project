@@ -16,8 +16,11 @@ import usersRouter, {
   signinValidator,
 } from './routes/users';
 
-const { DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb', JWT_SECRET } =
-  process.env;
+const {
+  PORT = 3000,
+  DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
+  JWT_SECRET,
+} = process.env;
 
 function run() {
   const app = express();
@@ -41,7 +44,7 @@ function run() {
   app.use(errorLogger);
   app.use(finalErrorHandler);
 
-  app.listen(3000, () => {
+  app.listen(PORT, () => {
     console.log('Listening on port 3000');
   });
 }

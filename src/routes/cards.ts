@@ -3,10 +3,9 @@ import { Router } from 'express';
 import Joi from 'joi';
 import {
   deleteCard,
-  deleteLike,
   getCards,
   postCard,
-  putLike,
+  updateLike,
 } from '../controllers/cards';
 
 export const cardIdParamsValidator = celebrate({
@@ -30,8 +29,8 @@ cardsRouter.post('/', postCardValidator, postCard);
 
 cardsRouter.delete('/:cardId', cardIdParamsValidator, deleteCard);
 
-cardsRouter.put('/:cardId/likes', cardIdParamsValidator, putLike);
+cardsRouter.put('/:cardId/likes', cardIdParamsValidator, updateLike);
 
-cardsRouter.delete('/:cardId/likes', cardIdParamsValidator, deleteLike);
+cardsRouter.delete('/:cardId/likes', cardIdParamsValidator, updateLike);
 
 export default cardsRouter;

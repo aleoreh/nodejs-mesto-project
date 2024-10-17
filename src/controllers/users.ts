@@ -42,21 +42,13 @@ export function getAuthorizatedUser(
 }
 
 export function createUser(req: Request, res: Response, next: NextFunction) {
-  const {
-    name = undefined,
-    about = undefined,
-    avatar = undefined,
-    email,
-    password,
-  } = req.body;
+  // TODO: типизировать body
+  const userData = req.body;
   bcrypt
-    .hash(password, 10)
+    .hash(userData.password, 10)
     .then((hashedPassword) =>
       User.create({
-        name,
-        about,
-        avatar,
-        email,
+        ...userData,
         password: hashedPassword,
       }),
     )

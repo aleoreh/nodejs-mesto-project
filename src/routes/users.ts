@@ -9,9 +9,17 @@ import {
   patchUserAvatar,
 } from '../controllers/users';
 
-const passwordJoiSchema = Joi.string().required().min(3);
-const emailJoiSchema = Joi.string().required().email();
-const uriJoiSchema = Joi.string().uri();
+export const passwordJoiSchema = Joi.string().required().min(3).messages({
+  'string.min': 'Длина пароля должна быть более двух символов',
+  'string.empty': 'Пароль не должен быть пустым',
+});
+export const emailJoiSchema = Joi.string().required().email().messages({
+  'string.email': 'Должен быть введён корректный email',
+  'string.empty': 'email не должен быть пустым',
+});
+export const uriJoiSchema = Joi.string()
+  .uri()
+  .message('Адрес должен быть корректным');
 
 export const signinValidator = celebrate({
   body: Joi.object().keys({

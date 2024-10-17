@@ -30,8 +30,8 @@ function run() {
   app.use(cookieParser());
   app.use(requestLogger);
 
-  app.use('/signin', signinValidator, login);
-  app.use('/signup', createUserValidator, createUser);
+  app.post('/signin', signinValidator, login);
+  app.post('/signup', createUserValidator, createUser);
 
   app.use(authMiddleware);
 

@@ -25,21 +25,18 @@ const userSchema = new mongoose.Schema<IUser>(
   {
     name: {
       type: String,
-      required: true,
       minlength: 2,
       maxlength: 30,
       default: DEFAULT_NAME,
     },
     about: {
       type: String,
-      required: true,
       minLength: 2,
       maxLength: 200,
       default: DEFAULT_ABOUT,
     },
     avatar: {
       type: String,
-      required: true,
       default: DEFAULT_AVATAR,
       validate: {
         validator: urlValidator,

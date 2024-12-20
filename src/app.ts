@@ -1,6 +1,7 @@
 // app.ts — входной файл
 import { errors as validationErrors } from 'celebrate';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -22,6 +23,8 @@ const {
 
 function run() {
   const app = express();
+
+  app.use(cors());
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());

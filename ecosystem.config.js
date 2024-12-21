@@ -22,7 +22,7 @@ module.exports = {
       repo: 'https://github.com/aleoreh/nodejs-mesto-project.git',
       path: DEPLOY_PATH,
       'pre-deploy-local': `scp -Cr .env ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
-      'post-deploy': 'npm i && npm run build && pm2 startOrRestart ecosystem.json --env production',
+      'post-deploy': 'npm i && npm run build && pm2 startOrRestart --env production',
     },
   },
 };

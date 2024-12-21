@@ -18,7 +18,7 @@ import { createUserValidator, signinValidator } from './routes/validation';
 const {
   PORT = '3000',
   DATABASE_PATH = 'mongodb://127.0.0.1:27017/mestodb',
-  JWT_SECRET,
+  JWT_SECRET = 'secret',
 } = process.env;
 
 function run() {
@@ -46,7 +46,7 @@ function run() {
   app.use(finalErrorHandler);
 
   app.listen(parseInt(PORT, 10), '0.0.0.0', () => {
-    console.log('Listening on port 3000');
+    console.log(`Listening on port ${PORT}`);
   });
 }
 
